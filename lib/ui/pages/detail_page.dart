@@ -1,13 +1,16 @@
+import 'package:myairplane/models/destination_model.dart';
 import 'package:myairplane/shared/theme.dart';
 import 'package:myairplane/ui/pages/choose_seat_page.dart';
 import 'package:myairplane/ui/widgets/custom_widget_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../widgets/interests_item.dart';
 import '../widgets/photo_item.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  final DestinationModel destinations;
+  const DetailPage(this.destinations, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +20,7 @@ class DetailPage extends StatelessWidget {
         height: 450,
         decoration: BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/image_destination1.png'))),
+                fit: BoxFit.cover, image: NetworkImage(destinations.imageUrl))),
       );
     }
 
@@ -26,7 +28,7 @@ class DetailPage extends StatelessWidget {
       return Container(
           width: double.infinity,
           height: 214,
-          margin: EdgeInsets.only(top: 236),
+          margin: const EdgeInsets.only(top: 236),
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -62,7 +64,7 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Rialto Bridge",
+                          destinations.name,
                           style: whiteTextStyle.copyWith(
                             fontSize: 24,
                             fontWeight: semiBold,
@@ -70,7 +72,7 @@ class DetailPage extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          "Italy, Venice",
+                          destinations.city,
                           style: whiteTextStyle.copyWith(
                               fontSize: 16, fontWeight: light),
                         )
@@ -90,7 +92,7 @@ class DetailPage extends StatelessWidget {
                                 image: AssetImage('assets/icon_star.png'))),
                       ),
                       Text(
-                        '4,5',
+                        destinations.rating.toString(),
                         style: whiteTextStyle.copyWith(
                             fontWeight: medium, fontSize: 14),
                       )
@@ -124,7 +126,7 @@ class DetailPage extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    "The present stone bridge, a single span designed by Antonio da Ponte, began to be constructed in 1588 and was completed in 1591. It is similar to the wooden bridge it succeeded. Two ramps lead up to a central portico. On either side of the portico, the covered ramps carry rows of shops.",
+                    destinations.about,
                     style: blackTextStyle.copyWith(
                       height: 1.5,
                     ),
@@ -144,49 +146,49 @@ class DetailPage extends StatelessWidget {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: const [
+                      children: [
                         PhotoItem(
-                          imageUrl: 'assets/image_photo1.png',
+                          imageUrl: destinations.subImageUrl1,
                         ),
                         PhotoItem(
-                          imageUrl: 'assets/image_photo2.png',
+                          imageUrl: destinations.subImageUrl2,
                         ),
                         PhotoItem(
-                          imageUrl: 'assets/image_photo3.png',
+                          imageUrl: destinations.subImageUrl3,
                         ),
                         PhotoItem(
-                          imageUrl: 'assets/image_destination1.png',
+                          imageUrl: destinations.subImageUrl4,
                         ),
                       ],
                     ),
                   ),
-                  // Interests
+                  // Included
                   const SizedBox(
                     height: 20,
                   ),
                   Text(
-                    "Interest",
+                    "Included",
                     style: blackTextStyle.copyWith(
                         fontSize: 16, fontWeight: semiBold),
                   ),
                   const SizedBox(
                     height: 6,
                   ),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       InterestItem(
-                        item: 'Kids Park',
+                        item: 'Hotel',
                       ),
-                      InterestItem(item: 'City Museum'),
+                      InterestItem(item: 'Roundtrip '),
                     ],
                   ),
                   const SizedBox(
                     height: 6,
                   ),
-                  Row(
-                    children: const [
-                      InterestItem(item: 'Honor Bridge'),
-                      InterestItem(item: 'Central Mall')
+                  const Row(
+                    children: [
+                      InterestItem(item: "Travel Vehicle"),
+                      InterestItem(item: 'Dining Enroute')
                     ],
                   )
                 ],
@@ -206,7 +208,11 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "IDR 2.500.000",
+                          NumberFormat.currency(
+                                  locale: 'id',
+                                  symbol: 'IDR ',
+                                  decimalDigits: 0)
+                              .format(destinations.price),
                           style: blackTextStyle.copyWith(
                               fontSize: 18, fontWeight: medium),
                         ),

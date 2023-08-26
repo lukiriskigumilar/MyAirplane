@@ -1,88 +1,95 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myairplane/cubit/auth_cubit.dart';
+import 'package:myairplane/cubit/destination_cubit.dart';
+import 'package:myairplane/models/destination_model.dart';
 import 'package:myairplane/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/destination_card.dart';
 import '../widgets/destination_tile.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<DestinationCubit>().fetchDestination();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget header() {
-      return Container(
-        margin:
-            EdgeInsets.only(right: defaultMargin, left: defaultMargin, top: 30),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      return BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthSucces) {
+            return Container(
+              margin: EdgeInsets.only(
+                  right: defaultMargin, left: defaultMargin, top: 30),
+              child: Row(
                 children: [
-                  Text(
-                    "Howdy, \nKezia Anne ",
-                    style: blackTextStyle.copyWith(
-                      fontSize: 24,
-                      fontWeight: semiBold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Howdy, \n${state.user.name} ",
+                          style: blackTextStyle.copyWith(
+                            fontSize: 24,
+                            fontWeight: semiBold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "Where to fly today?",
+                          style: greyTextStyle.copyWith(
+                              fontSize: 16, fontWeight: light),
+                        )
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Text(
-                    "Where to fly today?",
-                    style:
-                        greyTextStyle.copyWith(fontSize: 16, fontWeight: light),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage('assets/image_profile.png'))),
                   )
                 ],
               ),
-            ),
-            Container(
-              width: 60,
-              height: 60,
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage('assets/image_profile.png'))),
-            )
-          ],
-        ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       );
     }
 
-    Widget popularDestination() {
+    Widget popularDestination(List<DestinationModel> destintions) {
+      print(destintions);
       return Container(
         margin: const EdgeInsets.only(top: 30),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: const [
-              DestinationCard(
-                  name: "Rialto Bridge",
-                  city: "Italy,Venice",
-                  imageUrl: 'assets/image_destination1.png'),
-              DestinationCard(
-                name: "White House",
-                city: "santorini, greece ",
-                imageUrl: "assets/image_destination2.png",
-                rating: 5.0,
-              ),
-              DestinationCard(
-                  name: "Three Story Pagoda",
-                  city: "Kyoto, Japan",
-                  imageUrl: 'assets/image_destination4.png'),
-              DestinationCard(
-                  name: "Supertree Grove",
-                  city: "Singapore",
-                  imageUrl: 'assets/image_destination5.png')
-            ],
+            children: destintions.map((DestinationModel destination) {
+              return DestinationCard(destination);
+            }).toList(),
           ),
         ),
       );
     }
 
-    Widget newDestination() {
+    Widget newDestination(List<DestinationModel> destintions) {
       return Container(
         margin: EdgeInsets.only(
             top: 20, left: defaultMargin, right: defaultMargin, bottom: 100),
@@ -94,33 +101,39 @@ class HomePage extends StatelessWidget {
               style:
                   blackTextStyle.copyWith(fontWeight: semiBold, fontSize: 18),
             ),
-            const DestinationTile(
-                title: "Danau Berantan",
-                city: "Singaraja, Indonesia",
-                imageUrl: 'assets/image_destination6.png'),
-            const DestinationTile(
-                title: "Sydney Opera",
-                city: "Sydney, Aussie",
-                imageUrl: 'assets/image_destination7.png'),
-            const DestinationTile(
-                title: "Roma",
-                city: "Roma, Italy",
-                imageUrl: 'assets/image_destination8.png'),
-            const DestinationTile(
-                title: "SuperTree Grove",
-                city: "Singapore",
-                imageUrl: 'assets/image_destination9.png'),
-            const DestinationTile(
-                title: "Roma",
-                city: "Roma, Italy",
-                imageUrl: 'assets/image_destination8.png'),
+            Column(
+              children: destintions.map((DestinationModel destination) {
+                return DestinationTile(destination);
+              }).toList(),
+            )
           ],
         ),
       );
     }
 
-    return ListView(
-      children: [header(), popularDestination(), newDestination()],
+    return BlocConsumer<DestinationCubit, DestinationState>(
+      listener: (context, state) {
+        if (state is DestinationFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: kRedColor,
+            content: Text(state.error),
+          ));
+        }
+      },
+      builder: (context, state) {
+        if (state is DestinationSuccess) {
+          return ListView(
+            children: [
+              header(),
+              popularDestination(state.destinations),
+              newDestination(state.destinations)
+            ],
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

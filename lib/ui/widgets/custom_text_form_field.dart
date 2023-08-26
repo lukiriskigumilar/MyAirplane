@@ -6,11 +6,13 @@ class CustomTextFormField extends StatelessWidget {
   final String tittle;
   final String hintText;
   final bool obscureText;
+  final TextEditingController controller;
 
   const CustomTextFormField(
       {super.key,
       required this.tittle,
       required this.hintText,
+      required this.controller,
       this.obscureText = false});
 
   @override
@@ -27,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
           TextFormField(
             obscureText: obscureText,
             cursorColor: kBlackColor,
+            controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
               enabledBorder: OutlineInputBorder(

@@ -43,9 +43,9 @@ class MainPage extends StatelessWidget {
             color: kWhiteColor,
             borderRadius: BorderRadius.circular(18),
           ),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
+            children: [
               CustomBottomNavigationItem(
                 index: 0,
                 imageUrl: 'assets/icon_home.png',
