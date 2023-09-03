@@ -4,7 +4,6 @@ import 'package:myairplane/cubit/auth_cubit.dart';
 import 'package:myairplane/cubit/page_cubit.dart';
 import 'package:myairplane/shared/theme.dart';
 import 'package:myairplane/ui/pages/login_page.dart';
-import 'package:myairplane/ui/pages/signup.dart';
 import 'package:myairplane/ui/widgets/custom_widget_button.dart';
 
 class SettingsPage extends StatelessWidget {

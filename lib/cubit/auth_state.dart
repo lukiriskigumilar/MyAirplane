@@ -5,6 +5,8 @@ sealed class AuthState extends Equatable {
 
   @override
   List<Object> get props => [];
+
+  get user => null;
 }
 
 class AuthInitial extends AuthState {}

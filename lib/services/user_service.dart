@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:myairplane/cubit/auth_cubit.dart';
 import 'package:myairplane/models/user_model.dart';
 
 class UserService {
@@ -25,7 +26,21 @@ class UserService {
           id: id,
           email: snapshot['email'],
           name: snapshot['name'],
-          hobby: snapshot['hobby']);
+          hobby: snapshot['hobby'],
+          balance: snapshot['balance']);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateUserBalance({
+    required var id,
+    required int newBalance,
+  }) async {
+    try {
+      await _userReference.doc(id).update({
+        'balance': newBalance,
+      });
     } catch (e) {
       rethrow;
     }

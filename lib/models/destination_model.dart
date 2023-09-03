@@ -10,6 +10,8 @@ class DestinationModel extends Equatable {
   final String airportCity;
   final String airportCode;
   final String about;
+  final bool insurance;
+  final bool refundable;
   final double rating;
   final int price;
   final String imageUrl;
@@ -25,6 +27,8 @@ class DestinationModel extends Equatable {
     this.airportCity = '',
     this.airportCode = '',
     this.about = '',
+    required this.insurance,
+    required this.refundable,
     this.rating = 0,
     this.price = 0,
     this.imageUrl = '',
@@ -42,6 +46,8 @@ class DestinationModel extends Equatable {
         airportCity: json['airportCity'],
         airportCode: json['airportCode'],
         about: json['about'],
+        insurance: json['insurance'],
+        refundable: json['refundable'],
         rating: json['rating'].toDouble(),
         price: json['price'],
         imageUrl: json['imageUrl'],
@@ -51,6 +57,24 @@ class DestinationModel extends Equatable {
         subImageUrl4: json['subImageUrl4'],
       );
 
+  Map<String, dynamic> toJson() => {
+        id: id,
+        'name': name,
+        'city': city,
+        'airportCity': airportCity,
+        'airportCode': airportCode,
+        'about': about,
+        'insurance': insurance,
+        'refundable': refundable,
+        'rating': rating,
+        'price': price,
+        'imageUrl': imageUrl,
+        'subImageUrl1': subImageUrl1,
+        'subImageUrl2': subImageUrl2,
+        'subImageUrl3': subImageUrl3,
+        'subImageUrl4': subImageUrl4,
+      };
+
   @override
   List<Object?> get props => [
         id,
@@ -59,6 +83,8 @@ class DestinationModel extends Equatable {
         airportCity,
         airportCode,
         about,
+        insurance,
+        refundable,
         rating,
         price,
         imageUrl,

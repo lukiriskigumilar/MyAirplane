@@ -33,7 +33,7 @@ class AuthServices {
           email: email,
           name: name,
           hobby: hobby,
-          balance: 280000000);
+          balance: 20000000);
 
       await UserService().setUser(user);
       return user;

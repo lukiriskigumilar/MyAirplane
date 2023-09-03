@@ -1,9 +1,51 @@
-import 'package:myairplane/shared/theme.dart';
-import 'package:myairplane/ui/widgets/custom_widget_button.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class SuccsesCheckoutPage extends StatelessWidget {
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myairplane/cubit/auth_cubit.dart';
+import 'package:myairplane/cubit/page_cubit.dart';
+import 'package:myairplane/shared/theme.dart';
+import 'package:myairplane/ui/pages/get_started_page.dart';
+import 'package:myairplane/ui/pages/main_page.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+
+class SuccsesCheckoutPage extends StatefulWidget {
   const SuccsesCheckoutPage({super.key});
+
+  @override
+  State<SuccsesCheckoutPage> createState() => _SuccsesCheckoutPageState();
+}
+
+class _SuccsesCheckoutPageState extends State<SuccsesCheckoutPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Timer(const Duration(seconds: 5), () {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        context.read<PageCubit>().setPage(1);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => const GetStartedPage()),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        // ignore: avoid_print
+        print(user.email);
+        context.read<PageCubit>().setPage(1);
+        context.read<AuthCubit>().getCurrentUser(user.uid);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => const MainPage()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,35 +56,30 @@ class SuccsesCheckoutPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 300,
-              height: 150,
-              margin: const EdgeInsets.only(bottom: 50),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/image_success.png'))),
+              width: 600,
+              height: 300,
+              margin: const EdgeInsets.only(bottom: 50, top: 20),
+              child: Lottie.asset('assets/succses.json'),
             ),
             Text(
-              'Well Booked 😍',
-              style:
-                  blackTextStyle.copyWith(fontSize: 32, fontWeight: semiBold),
+              "Hooray! \nYour Payment Was Successful 🥳",
+              style: blackTextStyle.copyWith(
+                fontSize: 32,
+                fontWeight: semiBold,
+              ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              "Are you ready to explore the new \nworld of experiences?",
-              style: greyTextStyle.copyWith(fontSize: 16, fontWeight: light),
+              "Just a moment, please! We're preparing to guide you to the booking page",
+              style: greyTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: light,
+              ),
               textAlign: TextAlign.center,
             ),
-            CustomWidgetButton(
-              title: "My Bookings",
-              onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/main', (Route<dynamic> route) => false);
-              },
-              width: 220,
-              margin: const EdgeInsets.only(top: 50),
-            )
           ],
         ),
       ),

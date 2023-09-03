@@ -31,7 +31,6 @@ class _SplashPageState extends State<SplashPage> {
         );
       } else {
         // ignore: avoid_print
-        print(user.email);
         context.read<AuthCubit>().getCurrentUser(user.uid);
         Navigator.pushAndRemoveUntil(
           context,

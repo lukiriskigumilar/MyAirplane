@@ -4,6 +4,7 @@ import 'package:myairplane/ui/pages/choose_seat_page.dart';
 import 'package:myairplane/ui/widgets/custom_widget_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myairplane/ui/widgets/image_overlay.dart';
 
 import '../widgets/interests_item.dart';
 import '../widgets/photo_item.dart';
@@ -143,24 +144,106 @@ class DetailPage extends StatelessWidget {
                   const SizedBox(
                     height: 6,
                   ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        PhotoItem(
-                          imageUrl: destinations.subImageUrl1,
+                  Stack(
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            // Image 1
+                            GestureDetector(
+                              onTap: () {
+                                // Tampilkan overlay ketika gambar diklik
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: ImageOverlay(
+                                        imageUrl: destinations.subImageUrl1,
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: PhotoItem(
+                                  imageUrl: destinations.subImageUrl1),
+                            ),
+
+                            //IMage 2
+                            GestureDetector(
+                              onTap: () {
+                                // Tampilkan overlay ketika gambar diklik
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: ImageOverlay(
+                                        imageUrl: destinations.subImageUrl2,
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: PhotoItem(
+                                  imageUrl: destinations.subImageUrl2),
+                            ),
+                            //Image 3
+                            GestureDetector(
+                              onTap: () {
+                                // Tampilkan overlay ketika gambar diklik
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: ImageOverlay(
+                                        imageUrl: destinations.subImageUrl3,
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: PhotoItem(
+                                  imageUrl: destinations.subImageUrl3),
+                            ),
+                            //image 4
+
+                            GestureDetector(
+                              onTap: () {
+                                // Tampilkan overlay ketika gambar diklik
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: ImageOverlay(
+                                        imageUrl: destinations.subImageUrl4,
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: PhotoItem(
+                                  imageUrl: destinations.subImageUrl4),
+                            ),
+                          ],
                         ),
-                        PhotoItem(
-                          imageUrl: destinations.subImageUrl2,
-                        ),
-                        PhotoItem(
-                          imageUrl: destinations.subImageUrl3,
-                        ),
-                        PhotoItem(
-                          imageUrl: destinations.subImageUrl4,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   // Included
                   const SizedBox(
@@ -233,7 +316,8 @@ class DetailPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ChooseSeatPage()));
+                              builder: (context) =>
+                                  ChooseSeatPage(destinations)));
                     },
                     width: 170,
                   )

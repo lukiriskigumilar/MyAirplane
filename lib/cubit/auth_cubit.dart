@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myairplane/models/user_model.dart';
 import 'package:myairplane/services/auth_services.dart';
 import 'package:myairplane/services/user_service.dart';
@@ -53,6 +54,20 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       UserModel user = await UserService().getUserById(id);
       emit(AuthSucces(user));
+    } catch (e) {
+      emit(AuthFailed(e.toString()));
+    }
+  }
+
+  void updateBalance(var id, int newBalance) async {
+    try {
+      emit(AuthLoading());
+
+      await UserService().updateUserBalance(id: id, newBalance: newBalance);
+
+      UserModel updatedUser = await UserService().getUserById(id);
+
+      emit(AuthSucces(updatedUser));
     } catch (e) {
       emit(AuthFailed(e.toString()));
     }
