@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myairplane/cubit/auth_cubit.dart';
+import 'package:myairplane/models/topupHistory_model.dart';
 import 'package:myairplane/models/user_model.dart';
 
 class UserService {

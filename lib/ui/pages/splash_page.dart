@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:myairplane/cubit/auth_cubit.dart';
 import 'package:myairplane/services/auth_services.dart';
 import 'package:myairplane/ui/pages/get_started_page.dart';
@@ -20,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     // TODO: implement initState
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 5), () {
       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         Navigator.pushAndRemoveUntil(
@@ -52,13 +53,10 @@ class _SplashPageState extends State<SplashPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 100,
-            height: 100,
-            margin: const EdgeInsets.only(bottom: 35),
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/icon_plane.png'))),
-          ),
+              width: 400,
+              height: 400,
+              margin: const EdgeInsets.only(bottom: 35),
+              child: Lottie.asset('assets/forSplash.json')),
           Text(
             'AIR FLY COUNTRY',
             style: whiteTextStyle.copyWith(

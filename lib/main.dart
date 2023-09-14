@@ -4,7 +4,9 @@ import 'package:myairplane/cubit/auth_cubit.dart';
 import 'package:myairplane/cubit/destination_cubit.dart';
 import 'package:myairplane/cubit/page_cubit.dart';
 import 'package:myairplane/cubit/seat_cubit.dart';
+import 'package:myairplane/cubit/topup_history_cubit.dart';
 import 'package:myairplane/cubit/transaction_cubit.dart';
+import 'package:myairplane/cubit/wd_cubit.dart';
 import 'package:myairplane/ui/pages/bonus_page.dart';
 import 'package:myairplane/ui/pages/get_started_page.dart';
 import 'package:myairplane/ui/pages/main_page.dart';
@@ -47,7 +49,13 @@ class Myapp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TransactionCubit(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => TopupHistoryCubit(),
+        ),
+        BlocProvider(
+          create: (context) => WdCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

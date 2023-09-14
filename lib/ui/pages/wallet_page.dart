@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myairplane/cubit/auth_cubit.dart';
 import 'package:myairplane/shared/theme.dart';
+import 'package:myairplane/ui/pages/History_page.dart';
 import 'package:myairplane/ui/pages/my_qr.dart';
 import 'package:myairplane/ui/pages/topUp_page.dart';
+import 'package:myairplane/ui/pages/withdrawal_page.dart';
 import 'package:myairplane/ui/widgets/widgetbutton.dart';
 
 class WalletPage extends StatelessWidget {
@@ -156,7 +158,12 @@ class WalletPage extends StatelessWidget {
               WidgetService(
                 imageUrl: 'assets/iconWd.png',
                 title: 'Withdrawal',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WithdrawalPage()),
+                  );
+                },
               ),
               WidgetService(
                 imageUrl: 'assets/iconMyqr.png',
@@ -171,7 +178,13 @@ class WalletPage extends StatelessWidget {
               WidgetService(
                 imageUrl: 'assets/iconHistory.png',
                 title: 'History',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HistoryPage()),
+                  );
+                },
               ),
             ],
           ),

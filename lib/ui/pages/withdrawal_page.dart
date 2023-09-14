@@ -1,112 +1,21 @@
-// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:myairplane/cubit/auth_cubit.dart';
-import 'package:myairplane/models/topupHistory_model.dart';
+import 'package:myairplane/cubit/wd_cubit.dart';
+import 'package:myairplane/models/wd_model.dart';
 import 'package:myairplane/shared/theme.dart';
-import 'package:myairplane/ui/pages/choose_payment.dart';
-import 'package:myairplane/ui/pages/topup_history.dart';
-
+import 'package:myairplane/ui/pages/succses_topup.dart';
+import 'package:myairplane/ui/pages/wd_succses.dart';
+import 'package:myairplane/ui/pages/wd_succses_ceklis.dart';
+import 'package:myairplane/ui/pages/withdrawal_history.dart';
 import 'package:myairplane/ui/widgets/custom_widget_button.dart';
+import 'package:uuid/uuid.dart';
 
-class UpdateBalancePage extends StatefulWidget {
-  const UpdateBalancePage({super.key});
-
-  @override
-  _UpdateBalancePageState createState() => _UpdateBalancePageState();
-}
-
-class _UpdateBalancePageState extends State<UpdateBalancePage> {
+class WithdrawalPage extends StatelessWidget {
+  WithdrawalPage({super.key});
   final TextEditingController _amountController =
       TextEditingController(text: '');
-
-  Widget nameInput() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Top Up Amount',
-              style:
-                  purpleTextStyle.copyWith(fontSize: 20, fontWeight: medium)),
-          const SizedBox(
-            height: 6,
-          ),
-          TextFormField(
-            keyboardType:
-                TextInputType.number, // Set the keyboard type to number
-            obscureText: false,
-            cursorColor: kBlackColor,
-            controller: _amountController,
-            decoration: InputDecoration(
-              hintText: "IDR",
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  defaultRadius,
-                ),
-                borderSide: BorderSide(width: 2, color: kGreyColor),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  defaultRadius,
-                ),
-                borderSide: BorderSide(width: 3, color: kprimaryColor),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget selectPayButton() {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        var iduser = 'state.user.id';
-        // ignore: unnecessary_type_check
-        if (state is AuthSucces) {
-          iduser = state.user.id;
-        }
-
-        return BlocBuilder<AuthCubit, AuthState>(
-          builder: (context, state) {
-            return CustomWidgetButton(
-                margin: const EdgeInsets.only(top: 20, bottom: 20),
-                title: "Select Payment",
-                onPressed: () {
-                  var idUser = state.user.id;
-                  int userBalancenow = state.user.balance;
-                  var checkbalance = _amountController.text;
-
-                  if (checkbalance.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      backgroundColor: kRedColor,
-                      content: const Text(
-                          "Please ensure the top-up amount is provided"),
-                    ));
-                  } else {
-                    int parseBalance = int.parse(checkbalance);
-                    int newBalance = parseBalance + userBalancenow;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChoosePayment(
-                                  HistoryTopupMOdel(
-                                      creationDateTime: DateTime.now(),
-                                      id: iduser,
-                                      parseBalance: parseBalance),
-                                  iduser: idUser,
-                                  newBalance: newBalance,
-                                )));
-                  }
-                });
-          },
-        );
-      },
-    );
-  }
 
   Widget splitScreen(context) {
     return Container(
@@ -129,7 +38,7 @@ class _UpdateBalancePageState extends State<UpdateBalancePage> {
                 width: 180,
                 height: 50,
                 child: Text(
-                  'Top up',
+                  'Withdrawal',
                   style: purpleTextStyle.copyWith(
                       fontSize: 14, fontWeight: semiBold),
                 ),
@@ -144,11 +53,11 @@ class _UpdateBalancePageState extends State<UpdateBalancePage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const TopupHistory()),
+                        builder: (context) => WithdrawalHistory()),
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 50,
                     vertical: 15,
                   ),
@@ -255,12 +164,120 @@ class _UpdateBalancePageState extends State<UpdateBalancePage> {
     );
   }
 
+  Widget wdAmount() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Withdrawal Amount',
+              style:
+                  purpleTextStyle.copyWith(fontSize: 20, fontWeight: medium)),
+          const SizedBox(
+            height: 6,
+          ),
+          TextFormField(
+            keyboardType:
+                TextInputType.number, // Set the keyboard type to number
+            obscureText: false,
+            cursorColor: kBlackColor,
+            controller: _amountController,
+            decoration: InputDecoration(
+              hintText: "IDR",
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  defaultRadius,
+                ),
+                borderSide: BorderSide(width: 2, color: kGreyColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  defaultRadius,
+                ),
+                borderSide: BorderSide(width: 3, color: kprimaryColor),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget wdButton() {
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        var iduser = 'state.user.id';
+        String userEmail = 'state.user.email';
+        // ignore: unnecessary_type_check
+        if (state is AuthSucces) {
+          iduser = state.user.id;
+          userEmail = state.user.email;
+        }
+
+        return BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            return CustomWidgetButton(
+                margin: const EdgeInsets.only(top: 20, bottom: 20),
+                title: "Withdraw Now",
+                onPressed: () {
+                  int userBalancenow = state.user.balance;
+                  var checkbalance = _amountController.text;
+
+                  if (checkbalance.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: kRedColor,
+                      content: const Text(
+                          "Please ensure the top-up amount is provided"),
+                    ));
+                  } else {
+                    int intCheckbalance = int.parse(checkbalance);
+                    if (userBalancenow < intCheckbalance) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        backgroundColor: kRedColor,
+                        content: const Text(
+                            "The balance is not sufficient. Please adjust the amount or check your balance"),
+                      ));
+                    } else {
+                      //data ke user
+                      int parseBalance = int.parse(checkbalance);
+                      int newBalance = userBalancenow - parseBalance;
+                      //data ke wd
+                      var nowId = iduser;
+                      var nowEmail = userEmail;
+                      int wdAmount = parseBalance;
+                      var creationDateTime = DateTime.now();
+                      var uuid = const Uuid();
+                      String uniqID = uuid.v1();
+
+                      context.read<WdCubit>().createWdHistory(
+                          idWd: uniqID,
+                          idUser: nowId,
+                          userEmail: nowEmail,
+                          wdAmount: wdAmount,
+                          creationDateTime: creationDateTime);
+
+                      context
+                          .read<AuthCubit>()
+                          .updateBalance(iduser, newBalance);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SucssesWdFront()));
+                    }
+                  }
+                });
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kprimaryColor,
-        title: const Text('Top Up Balance'),
+        title: const Text('Withdrawal Amount'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -275,9 +292,9 @@ class _UpdateBalancePageState extends State<UpdateBalancePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   card(),
-                  nameInput(),
+                  wdAmount(),
                   const SizedBox(height: 20),
-                  selectPayButton(),
+                  wdButton(),
                 ],
               ),
             ),

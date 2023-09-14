@@ -40,6 +40,10 @@ TextStyle purpleTextStyle = GoogleFonts.poppins(
   color: kprimaryColor,
 );
 
+TextStyle availableSeat = GoogleFonts.poppins(
+  color: kAvailableSeat,
+);
+
 FontWeight light = FontWeight.w300;
 FontWeight reguler = FontWeight.w400;
 FontWeight medium = FontWeight.w500;

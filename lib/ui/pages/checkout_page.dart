@@ -13,16 +13,11 @@ import 'package:flutter/material.dart';
 
 import '../widgets/booking_details_item.dart';
 
-class CheckoutPage extends StatefulWidget {
+class CheckoutPage extends StatelessWidget {
   final TransactionModel transaction;
 
   const CheckoutPage(this.transaction, {super.key});
 
-  @override
-  State<CheckoutPage> createState() => _CheckoutPageState();
-}
-
-class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     Widget route() {
@@ -61,12 +56,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      widget.transaction.destination.airportCode,
+                      transaction.destination.airportCode,
                       style: blackTextStyle.copyWith(
                           fontSize: 24, fontWeight: semiBold),
                     ),
                     Text(
-                      widget.transaction.destination.airportCity,
+                      transaction.destination.airportCity,
                       style: greyTextStyle.copyWith(
                         fontWeight: light,
                       ),
@@ -100,22 +95,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       borderRadius: BorderRadius.circular(18),
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                              widget.transaction.destination.imageUrl))),
+                          image:
+                              NetworkImage(transaction.destination.imageUrl))),
                 ),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        widget.transaction.destination.name,
+                        transaction.destination.name,
                         style: blackTextStyle.copyWith(
                             fontSize: 18, fontWeight: medium),
                         overflow:
                             TextOverflow.ellipsis, // supaya text tidak overfow
                       ),
                       Text(
-                        widget.transaction.destination.city,
+                        transaction.destination.city,
                         style: greyTextStyle.copyWith(fontWeight: light),
                         overflow: TextOverflow.ellipsis,
                       )
@@ -135,7 +130,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               image: AssetImage('assets/icon_star.png'))),
                     ),
                     Text(
-                      widget.transaction.destination.rating.toString(),
+                      transaction.destination.rating.toString(),
                       style: blackTextStyle.copyWith(
                           fontWeight: medium, fontSize: 12),
                     )
@@ -157,42 +152,39 @@ class _CheckoutPageState extends State<CheckoutPage> {
             // Booking detail Items
             BookingDetailsItem(
                 title: "Traveler",
-                valueText: "${widget.transaction.amountOfTraveler} Person",
+                valueText: "${transaction.amountOfTraveler} Person",
                 valueColor: kBlackColor),
             BookingDetailsItem(
                 title: "Seat",
-                valueText: widget.transaction.selectedSeats,
+                valueText: transaction.selectedSeats,
                 valueColor: kBlackColor),
             BookingDetailsItem(
                 title: "Insurance",
-                valueText:
-                    widget.transaction.destination.insurance ? 'YES' : 'NO',
-                valueColor: widget.transaction.destination.insurance
+                valueText: transaction.destination.insurance ? 'YES' : 'NO',
+                valueColor: transaction.destination.insurance
                     ? kGreenColor
                     : kRedColor),
             BookingDetailsItem(
                 title: "Refundable",
-                valueText:
-                    widget.transaction.destination.refundable ? 'YES' : 'NO',
-                valueColor: widget.transaction.destination.refundable
+                valueText: transaction.destination.refundable ? 'YES' : 'NO',
+                valueColor: transaction.destination.refundable
                     ? kGreenColor
                     : kRedColor),
             BookingDetailsItem(
                 title: "VAT",
-                valueText:
-                    '${(widget.transaction.vat * 100).toStringAsFixed(0)}%',
+                valueText: '${(transaction.vat * 100).toStringAsFixed(0)}%',
                 valueColor: kBlackColor),
             BookingDetailsItem(
                 title: "Price",
                 valueText: NumberFormat.currency(
                         locale: 'id', symbol: 'IDR ', decimalDigits: 0)
-                    .format(widget.transaction.price),
+                    .format(transaction.price),
                 valueColor: kBlackColor),
             BookingDetailsItem(
                 title: "Grand Total",
                 valueText: NumberFormat.currency(
                         locale: 'id', symbol: 'IDR ', decimalDigits: 0)
-                    .format(widget.transaction.grandTotal),
+                    .format(transaction.grandTotal),
                 valueColor: kprimaryColor),
           ],
         ),
@@ -306,10 +298,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
           return BlocConsumer<TransactionCubit, TransactionState>(
             listener: (context, state) {
               int newBalance = 0;
-              newBalance = compareSaldo - widget.transaction.grandTotal;
+              newBalance = compareSaldo - transaction.grandTotal;
               var id = '';
               id = iduser;
-              if (compareSaldo >= widget.transaction.grandTotal) {
+              if (compareSaldo >= transaction.grandTotal) {
                 if (state is TransactionSuccses) {
                   // Memperbarui balance di Firebase
                   var collection =
@@ -350,10 +342,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
               return CustomWidgetButton(
                 title: "Pay Now ",
                 onPressed: () {
-                  if (compareSaldo >= widget.transaction.grandTotal) {
+                  if (compareSaldo >= transaction.grandTotal) {
                     return context
                         .read<TransactionCubit>()
-                        .createTransaction(widget.transaction);
+                        .createTransaction(transaction);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       backgroundColor: kRedColor,

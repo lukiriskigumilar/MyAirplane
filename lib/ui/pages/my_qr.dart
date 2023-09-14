@@ -50,8 +50,8 @@ class _MyQrState extends State<MyQr> {
                           return Column(
                             children: [
                               SizedBox(
-                                width: 120,
-                                height: 120,
+                                width: 200,
+                                height: 200,
                                 child: QrImageView(data: data),
                               ),
                               const SizedBox(
