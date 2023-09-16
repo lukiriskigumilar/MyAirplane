@@ -1,8 +1,9 @@
 # myairplane
 
-This Flutter project is a demonstration and learning exercise and does not contain any sensitive or real-world data. 
+This Flutter project is a demonstration and learning exercise and does not contain real-world data. 
 It showcases various Flutter features, UI/UX design patterns, and best practices, including the use of Cubit for state management.
 This Flutter project provides the flexibility to sign up using any email address, including random ones. Email validation during the sign-up process is not required.
+Please Note: This Flutter project is for educational purposes only. We strongly recommend against using or inputting any sensitive or real-world data. It is intended solely for learning, experimentation, and demonstration purposes.
 
 ## Getting Started
 
