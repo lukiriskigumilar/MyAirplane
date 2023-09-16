@@ -29,14 +29,10 @@ You can download the Android and iOS versions of this project from the following
  
  https://drive.google.com/drive/folders/1cmgW7KArt2i83uEjGVkl5FmXlB1de90A?usp=sharing
 
-<!-- Portrait Image 1 -->
-<img src="https://firebasestorage.googleapis.com/v0/b/myairplane-43ba0.appspot.com/o/destinations%2Fshow2.jpeg?alt=media&token=c0ddaaef-deba-4567-90ad-ecb861c5b183" width="200" alt="Image 1 Alt Text">
+| Image 3                                  | Image 2                                  | Image 1                                  |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Image 3 Alt Text](https://firebasestorage.googleapis.com/v0/b/myairplane-43ba0.appspot.com/o/destinations%2Fshow3.jpeg?alt=media&token=384d6a8f-5873-46e9-92a6-2890e2b28938) | ![Image 2 Alt Text](https://firebasestorage.googleapis.com/v0/b/myairplane-43ba0.appspot.com/o/destinations%2Fshow1.jpeg?alt=media&token=58965680-76a5-4a25-b334-cce8501b9766) | ![Image 1 Alt Text](https://firebasestorage.googleapis.com/v0/b/myairplane-43ba0.appspot.com/o/destinations%2Fshow2.jpeg?alt=media&token=c0ddaaef-deba-4567-90ad-ecb861c5b183) |
 
-<!-- Portrait Image 2 -->
-<img src="https://firebasestorage.googleapis.com/v0/b/myairplane-43ba0.appspot.com/o/destinations%2Fshow1.jpeg?alt=media&token=58965680-76a5-4a25-b334-cce8501b9766" width="200" alt="Image 2 Alt Text">
-
-<!-- Portrait Image 3 -->
-<img src="https://firebasestorage.googleapis.com/v0/b/myairplane-43ba0.appspot.com/o/destinations%2Fshow3.jpeg?alt=media&token=384d6a8f-5873-46e9-92a6-2890e2b28938" width="200" alt="Image 3 Alt Text">
 
 
 
