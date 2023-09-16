@@ -17,8 +17,9 @@
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="myairplane">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31,7 +32,7 @@
 
   <title>myairplane</title>
   <link rel="manifest" href="manifest.json">
-
+  
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
@@ -41,6 +42,7 @@
 </head>
 <body>
   <script>
+    let useHtml = true;
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -48,6 +50,9 @@
           serviceWorkerVersion: serviceWorkerVersion,
         },
         onEntrypointLoaded: function(engineInitializer) {
+          let config = {
+          renderer: useHtml ? "html" : "canvaskit",
+        };
           engineInitializer.initializeEngine().then(function(appRunner) {
             appRunner.runApp();
           });

@@ -28,6 +28,33 @@ class LoginPage extends StatelessWidget {
       );
     }
 
+    Widget SignupText() {
+      return Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(
+            top: 20,
+            bottom: 70,
+          ),
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/sign-up');
+              },
+              child: RichText(
+                text: TextSpan(
+                  text: 'Sign up here',
+                  style: purpleTextStyle.copyWith(
+                      fontWeight: light, decoration: TextDecoration.underline),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' If you don\'t have an account yet',
+                      style: blackTextStyle.copyWith(
+                          fontWeight: medium, decoration: TextDecoration.none),
+                    ),
+                  ],
+                ),
+              )));
+    }
+
     Widget inputSectionlog() {
       //Form email
       Widget emailInput() {
@@ -107,7 +134,7 @@ class LoginPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: defaultMargin,
             ),
-            children: [title(), inputSectionlog()],
+            children: [title(), inputSectionlog(), SignupText()],
           ),
         ));
   }

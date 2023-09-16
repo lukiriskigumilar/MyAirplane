@@ -9,27 +9,10 @@ import 'package:myairplane/ui/widgets/custom_widget_button.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
-  Widget signOutButton(context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 120, top: 120),
-      child: Column(
-        children: [
-          CustomWidgetButton(
-            title: "Sign Out",
-            onPressed: () {
-              context.read<AuthCubit>().signOut();
-            },
-            width: 220,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget detailUser() {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 100),
+      margin: const EdgeInsets.only(bottom: 80),
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -75,45 +58,58 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
-          if (state is AuthFailed) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  Widget signOutButton(context) {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
               backgroundColor: kRedColor,
               content: Text(state.error),
-            ));
-          } else if (state is AuthInitial) {
-            // menambahkan nilai set page 0 atau homescreen
-            context.read<PageCubit>().setPage(0);
-
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-              (Route<dynamic> route) => false,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: defaultRadius,
-              vertical: defaultRadius,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [detailUser(), signOutButton(context)],
             ),
           );
-        },
+        } else if (state is AuthInitial) {
+          context.read<PageCubit>().setPage(0);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
+            (Route<dynamic> route) => false,
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return Center(
+          child: CustomWidgetButton(
+            title: 'Sign Out',
+            onPressed: () {
+              context.read<AuthCubit>().signOut();
+            },
+            width: 220,
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        margin: const EdgeInsets.only(bottom: 120, top: 50),
+        padding: EdgeInsets.symmetric(
+          horizontal: defaultRadius,
+          vertical: defaultRadius,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [detailUser(), signOutButton(context)],
+        ),
       ),
     );
   }

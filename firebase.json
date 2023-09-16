@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "site": "sitemyairplane",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "functions": {
+    "source": "functions"
+  }
+}

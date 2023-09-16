@@ -45,8 +45,28 @@ dependencies:
   lottie: ^2.6.0
   qr_flutter: ^4.1.0
   uuid: ^4.0.0
+  
 
 dev_dependencies:
+ flutter_launcher_icons: ^0.13.1
+flutter_launcher_icons:
+  android: "ic_launcher_icon"
+  ios: true
+  image_path: "assets/logoMyairplane.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/logoMyairplane.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/logoMyairplane.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/logoMyairplane.png"
+
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^2.2.10
